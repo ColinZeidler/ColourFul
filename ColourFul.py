@@ -15,16 +15,12 @@ class Block(object):
         self.colour = (0, 0, 0)
 
     def calculate_colour(self, screen_shot):
-        section = screen_shot.crop(self.calculate_image_pos())
-        x_offset = 0
-        y_offset = 0
-        red = 0
-        blue = 0
-        green = 0
-        count = 0
-        for x in range(0, section.width, 8):
-            for y in range(0, section.height, 8):
-                r, g, b = section.getpixel((x, y))
+        red = blue = green = count = 0
+        start_x = self.x * self.width
+        start_y = self.y * self.height
+        for x in range(start_x, start_x + self.width, 10):
+            for y in range(start_y, start_y + self.height, 10):
+                r, g, b = screen_shot[x, y]
                 red += r
                 green += g
                 blue += b
@@ -122,7 +118,7 @@ if __name__ == "__main__":
     blocks.position_blocks()
     while True:
         start = time.time()
-        image = ImageGrab.grab()
+        image = ImageGrab.grab().load()
         blocks.calculate_colours(image)
         end = time.time()
         print(end - start)
