@@ -16,6 +16,7 @@ class Display(tk.Frame):
         self.BC = BlockContainer(image.height, image.width, 25)
         columns, rows = self.BC.position_blocks()
         self.rectangles = [[None for y in range(rows)] for x in range(columns)]
+        self.max_delay = 0.1
 
     def update_pixel(self, xy, colour):
         if type(colour) == tuple:
@@ -32,16 +33,17 @@ class Display(tk.Frame):
             self.canvas.itemconfig(self.rectangles[x][y], fill=colour)
         self.canvas.update_idletasks()
 
-    def run(self):
+    def run(self, gui=True):
         start = time.time()
         image = ImageGrab.grab().load()
         self.BC.calculate_colours(image)
-        for block in self.BC.blocks:
-            self.update_pixel((block.x, block.y), block.colour)
+        if gui:
+            for block in self.BC.blocks:
+                self.update_pixel((block.x, block.y), block.colour)
         end = time.time()
         diff = end - start
-        diff = max(0, 0.1 - diff)
-        self.after(int(diff * 1000), self.run)
+        diff = max(0, self.max_delay - diff)
+        self.after(int(diff * 1000), self.run, gui)
 
     @staticmethod
     def tuple_to_hex(tuple):
@@ -56,5 +58,5 @@ class Display(tk.Frame):
 if __name__ == "__main__":
     root = tk.Tk()
     display = Display(root)
-    display.run()
+    display.run(True)
     display.mainloop()
