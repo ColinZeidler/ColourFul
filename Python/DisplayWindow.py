@@ -17,6 +17,7 @@ class Display(tk.Frame):
         columns, rows = self.BC.position_blocks()
         self.rectangles = [[None for y in range(rows)] for x in range(columns)]
         self.max_delay = 0.1
+        self.run_screencap = True
 
     def update_pixel(self, xy, colour):
         if type(colour) == tuple:
@@ -43,7 +44,8 @@ class Display(tk.Frame):
         end = time.time()
         diff = end - start
         diff = max(0, self.max_delay - diff)
-        self.after(int(diff * 1000), self.run, gui)
+        if self.run_screencap:
+            self.after(int(diff * 1000), self.run, gui)
 
     @staticmethod
     def tuple_to_hex(tuple):
