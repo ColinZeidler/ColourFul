@@ -3,6 +3,16 @@ __author__ = 'Colin'
 from PIL import ImageGrab
 import time
 
+# TODO add in gamma correction option
+# gammaArray = [[None for x in range(3)] for x in range(256)]
+# for x in range(256):
+#     f = pow(x / 255, 2.8)
+#     gammaArray[x][0] = int(f * 255)
+#     gammaArray[x][1] = int(f * 240)
+#     gammaArray[x][2] = int(f * 220)
+#     print(x)
+#     print(gammaArray[x])
+
 
 class Block(object):
     def __init__(self, x, y, width, height):
@@ -116,9 +126,9 @@ if __name__ == "__main__":
 
     blocks = BlockContainer(image.height, image.width, 25)
     blocks.position_blocks()
-    while True:
-        start = time.time()
-        image = ImageGrab.grab().load()
-        blocks.calculate_colours(image)
-        end = time.time()
-        print(end - start)
+    # while True:
+    #     start = time.time()
+    #     image = ImageGrab.grab().load()
+    #     blocks.calculate_colours(image)
+    #     end = time.time()
+    #     print(end - start)
